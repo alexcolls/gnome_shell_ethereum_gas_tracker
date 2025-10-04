@@ -14,7 +14,9 @@ const EthGasPriceIndicator = GObject.registerClass(
 
             this.buttonText = new St.Label({
                 text: 'Loading...',
-                y_align: Clutter.ActorAlign.CENTER
+                y_align: Clutter.ActorAlign.CENTER,
+                x_expand: true,
+                natural_width: 180
             });
             this.add_child(this.buttonText);
 
@@ -27,7 +29,10 @@ const EthGasPriceIndicator = GObject.registerClass(
 
         _refresh() {
             this._loadGasPrice((safePrice, fastPrice) => {
-                this.buttonText.set_text(`Safe ${safePrice} / Fast ${fastPrice}`);
+                const text = `⛽ Safe ${safePrice} / Fast ${fastPrice}`;
+                this.buttonText.set_text(text);
+                // Add tooltip to show full gas prices
+                this.buttonText.set_tooltip_text(`Ethereum Gas Prices\nSafe: ${safePrice} Gwei\nFast: ${fastPrice} Gwei`);
             });
         }
 
